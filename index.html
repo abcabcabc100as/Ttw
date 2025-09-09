@@ -3,208 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فحص حالة الحظر - Free Fire</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Best Bot-X Panel</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             color: #fff;
             min-height: 100vh;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-        
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            justify-content: center;
         }
         
         .container {
             width: 100%;
-            max-width: 800px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
             margin-top: 20px;
+            padding: 20px;
         }
         
         header {
             text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #fdbb2d;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .logo {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #fdbb2d;
-        }
-        
-        .form-group {
+            padding: 20px 0;
             margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #fdbb2d;
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4ecca3;
         }
         
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+        .subtitle {
             font-size: 1rem;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+            opacity: 0.8;
         }
         
-        .form-group input:focus {
-            outline: none;
-            border-color: #fdbb2d;
-            background: rgba(255, 255, 255, 0.15);
+        .panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
         
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(to right, #ff8a00, #da1b60);
-            border: none;
-            border-radius: 8px;
+        .btn {
+            background: linear-gradient(90deg, #4ecca3, #2c9680);
             color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
             font-size: 1.1rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
+            font-weight: bold;
         }
         
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        .btn:active {
+            transform: scale(0.98);
         }
         
-        button:active {
-            transform: translateY(0);
+        .btn-remove {
+            background: linear-gradient(90deg, #e94560, #c22535);
+        }
+        
+        .form-container {
+            display: none;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
         
         .result {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
+            min-height: 100px;
+            font-family: monospace;
+            white-space: pre-wrap;
             display: none;
         }
         
-        .result h3 {
-            margin-bottom: 15px;
-            color: #fdbb2d;
+        .token-status {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
             text-align: center;
-        }
-        
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .result-item:last-child {
-            border-bottom: none;
-        }
-        
-        .status-banned {
-            color: #ff4d4d;
-            font-weight: bold;
-        }
-        
-        .status-not-banned {
-            color: #4cd964;
-            font-weight: bold;
+            font-size: 0.9rem;
         }
         
         .loading {
             display: none;
             text-align: center;
-            margin-top: 20px;
+            margin: 10px 0;
         }
         
-        .loading i {
-            font-size: 2rem;
-            animation: spin 1s linear infinite;
+        .loading::after {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #4ecca3;
+            animation: spin 1s ease-in-out infinite;
         }
         
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
         
-        .error {
-            color: #ff4d4d;
-            text-align: center;
-            margin-top: 15px;
-            display: none;
-        }
-        
-        .instructions {
-            margin-top: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        
-        .instructions h3 {
-            color: #fdbb2d;
-            margin-bottom: 15px;
-        }
-        
-        .instructions ol {
-            padding-right: 20px;
-            line-height: 1.8;
-        }
-        
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .container {
-                padding: 20px;
+                border-radius: 15px;
+                padding: 15px;
             }
             
-            header h1 {
-                font-size: 2rem;
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            .btn {
+                padding: 12px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -212,140 +164,176 @@
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <i class="fas fa-fire"></i>
-            </div>
-            <h1>فحص حالة الحظر في Free Fire</h1>
-            <p>ادخل معلومات اللاعب للتحقق من حالة الحظر</p>
+            <h1>Best Bot-X Panel</h1>
+            <div class="subtitle">نظام إدارة العملاء</div>
         </header>
         
-        <div class="form-group">
-            <label for="apiKey"><i class="fas fa-key"></i> مفتاح API:</label>
-            <input type="text" id="apiKey" placeholder="أدخل مفتاح API الخاص بك">
+        <div class="panel">
+            <div class="btn" id="addClientBtn">add player</div>
+            <div class="btn btn-remove" id="removeClientBtn">Remove player</div>
         </div>
         
-        <div class="form-group">
-            <label for="playerId"><i class="fas fa-user"></i> رقم اللاعب (UID):</label>
-            <input type="text" id="playerId" placeholder="أدخل رقم اللاعب (مثال: 123456789)">
+        <div class="form-container" id="addForm">
+            <input type="text" id="addUid" placeholder="ادخل uid لاعب">
+            <div class="btn" onclick="addClient()">ADD </div>
         </div>
         
-        <button id="checkBtn"><i class="fas fa-search"></i> فحص حالة الحظر</button>
-        
-        <div class="loading" id="loading">
-            <i class="fas fa-spinner"></i>
-            <p>جاري التحقق من البيانات...</p>
+        <div class="form-container" id="removeForm">
+            <input type="text" id="removeUid" placeholder="ادخل uid لاعب">
+            <div class="btn btn-remove" onclick="removeClient()">REMOVE</div>
         </div>
         
-        <div class="error" id="error"></div>
+        <div class="loading" id="loading"></div>
         
-        <div class="result" id="result">
-            <h3>نتيجة الفحص</h3>
-            <div class="result-item">
-                <span>حالة الحظر:</span>
-                <span id="status"></span>
-            </div>
-            <div class="result-item">
-                <span>مدة الحظر:</span>
-                <span id="banPeriod"></span>
-            </div>
-            <div class="result-item">
-                <span>رقم اللاعب:</span>
-                <span id="uid"></span>
-            </div>
-        </div>
+        <div class="result" id="result"></div>
         
-        <div class="instructions">
-            <h3>كيفية الاستخدام:</h3>
-            <ol>
-                <li>أدخل مفتاح API الخاص بك في الحقل المخصص</li>
-                <li>أدخل رقم اللاعب (UID) الذي تريد التحقق منه</li>
-                <li>انقر على زر "فحص حالة الحظر"</li>
-                <li>انتظر حتى تظهر النتيجة</li>
-            </ol>
-            <p>ملاحظة: تأكد من صحة مفتاح API ورقم اللاعب قبل إجراء الفحص</p>
+        <div class="token-status" id="tokenStatus">
+            حالة التوكن: جاري التحديث...
         </div>
     </div>
-    
-    <footer>
-        <p>تم التطوير باستخدام Flask & Vercel | 2023</p>
-    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkBtn = document.getElementById('checkBtn');
-            const apiKeyInput = document.getElementById('apiKey');
-            const playerIdInput = document.getElementById('playerId');
-            const loading = document.getElementById('loading');
-            const error = document.getElementById('error');
-            const result = document.getElementById('result');
-            const statusEl = document.getElementById('status');
-            const banPeriodEl = document.getElementById('banPeriod');
-            const uidEl = document.getElementById('uid');
-            
-            checkBtn.addEventListener('click', function() {
-                const apiKey = apiKeyInput.value.trim();
-                const playerId = playerIdInput.value.trim();
-                
-                // إخفاء النتائج السابقة
-                error.style.display = 'none';
-                result.style.display = 'none';
-                
-                // التحقق من صحة المدخلات
-                if (!apiKey) {
-                    showError('يرجى إدخال مفتاح API');
-                    return;
-                }
-                
-                if (!playerId) {
-                    showError('يرجى إدخال رقم اللاعب');
-                    return;
-                }
-                
-                // عرض تحميل
-                loading.style.display = 'block';
-                
-                // إجراء طلب إلى API
-                fetch(`https://gelmi-check-ban.vercel.app/bancheck?key=${apiKey}&uid=${playerId}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('فشل في الاتصال بالخادم');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        loading.style.display = 'none';
-                        
-                        if (data.error) {
-                            showError(data.error);
-                            return;
-                        }
-                        
-                        // عرض النتائج
-                        uidEl.textContent = data.uid;
-                        
-                        if (data.is_banned) {
-                            statusEl.textContent = 'محظور';
-                            statusEl.className = 'status-banned';
-                            banPeriodEl.textContent = data.ban_period + ' يوم';
-                        } else {
-                            statusEl.textContent = 'غير محظور';
-                            statusEl.className = 'status-not-banned';
-                            banPeriodEl.textContent = '0 يوم';
-                        }
-                        
-                        result.style.display = 'block';
-                    })
-                    .catch(err => {
-                        loading.style.display = 'none';
-                        showError('حدث خطأ: ' + err.message);
-                    });
-            });
-            
-            function showError(message) {
-                error.textContent = message;
-                error.style.display = 'block';
-            }
+        // عناصر DOM
+        const addClientBtn = document.getElementById('addClientBtn');
+        const removeClientBtn = document.getElementById('removeClientBtn');
+        const addForm = document.getElementById('addForm');
+        const removeForm = document.getElementById('removeForm');
+        const resultDiv = document.getElementById('result');
+        const loadingDiv = document.getElementById('loading');
+        const tokenStatusDiv = document.getElementById('tokenStatus');
+        
+        // متغيرات التطبيق
+        let jwtToken = null;
+        
+        // إعداد واجهة المستخدم
+        addClientBtn.addEventListener('click', () => {
+            addForm.style.display = 'block';
+            removeForm.style.display = 'none';
+            resultDiv.style.display = 'none';
         });
+        
+        removeClientBtn.addEventListener('click', () => {
+            removeForm.style.display = 'block';
+            addForm.style.display = 'none';
+            resultDiv.style.display = 'none';
+        });
+        
+        // محاكاة وظيفة الحصول على التوكن
+        async function getJwtToken() {
+            try {
+                // في تطبيق حقيقي، سيتم إجراء طلب HTTP هنا
+                // لمحاكاة السلوك سنستخدم setTimeout
+                tokenStatusDiv.textContent = 'حالة التوكن: جاري التحديث...';
+                
+                // محاكاة طلب HTTP
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // محاكاة استجابة ناجحة
+                jwtToken = "eyJhbGciOiJIUzI1NiIsInN2ciI6IjEiLCJ0eXAiOiJKV1QifQ.eyJhY2NvdW50X2lkIjoxMzIxMzUzNDU3Nywibmlja25hbWUiOiJFUlJPUiwsVEVBTeKckyIsIm5vdGlfcmVnaW9uIjoiTUUiLCJsb2NrX3JlZ2lvbiI6Ik1FIiwiZXh0ZXJuYWxfaWQiOiI1MjI5NmI4MmYxZTkwMmQ4OWY3NDcxODcxY2M3NTE2MiIsImV4dGVybmFsX3R5cGUiOjQsInBsYXRfaWQiOjEsImNsaWVudF92ZXJzaW9uIjoiMS4xMDguMyIsImVtdWxhdG9yX3Njb3JlIjoxMDAsImlzX2VtdWxhdG9yIjp0cnVlLCJjb3VudHJ5X2NvZGUiOiJVUyIsImV4dGVybmFsX3VpZCI6NDE0OTI4MDA3NiwicmVnX2F2YXRhciI6MTAyMDAwMDA3LCJzb3VyY2UiOjAsImxvY2tfcmVnaW9uX3RpbWUiOjE3NTcwNTUxODksImNsaWVudF90eXBlIjoyLCJzaWduYXR1cmVfbWQ1IjoiIiwidXNpbmdfdmVyc2lvbiI6MCwicmVsZWFzZV9jaGFubmVsIjoiIiwicmVsZWFzZV92ZXJzaW9uIjoiT0I1MCIsImV4cCI6MTc1NzE4NjkwOH0.6oHIls2Myk5ylEqLSanztTGjHwrki6MB4KTuKSzGdVU";
+                
+                tokenStatusDiv.textContent = 'حالة التوكن: تم التحديث بنجاح';
+                setTimeout(() => {
+                    tokenStatusDiv.textContent = 'حالة التوكن: نشط';
+                }, 2000);
+                
+                return true;
+            } catch (error) {
+                console.error('Error getting token:', error);
+                tokenStatusDiv.textContent = 'حالة التوكن: فشل التحديث';
+                return false;
+            }
+        }
+        
+        // محاكاة إضافة عميل
+        async function addClient() {
+            const uid = document.getElementById('addUid').value;
+            if (!uid) {
+                showResult('يرجى إدخال UID صحيح');
+                return;
+            }
+            
+            loadingDiv.style.display = 'block';
+            
+            // محاكاة انتظار الحصول على التوكن إذا لم يكن موجودًا
+            if (!jwtToken) {
+                await getJwtToken();
+            }
+            
+            // محاكاة طلب HTTP
+            try {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // محاكاة استجابة ناجحة
+                showResult(JSON.stringify({
+                    status: "success",
+                    message: "تم الاضافه بنجاح",
+                    uid: uid
+                }, null, 2));
+            } catch (error) {
+                showResult(JSON.stringify({
+                    status: "error",
+                    message: "فشل في إضافة العميل",
+                    error: error.message
+                }, null, 2));
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+        
+        // محاكاة إزالة عميل
+        async function removeClient() {
+            const uid = document.getElementById('removeUid').value;
+            if (!uid) {
+                showResult('يرجى إدخال UID صحيح');
+                return;
+            }
+            
+            loadingDiv.style.display = 'block';
+            
+            // محاكاة انتظار الحصول على التوكن إذا لم يكن موجودًا
+            if (!jwtToken) {
+                await getJwtToken();
+            }
+            
+            // محاكاة طلب HTTP
+            try {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // محاكاة استجابة ناجحة
+                showResult(JSON.stringify({
+                    status: "success",
+                    message: "تم حذف لاعب من قائمة الأصدقاء",
+                    uid: uid
+                }, null, 2));
+            } catch (error) {
+                showResult(JSON.stringify({
+                    status: "error",
+                    message: "فشل في إزالة العميل",
+                    error: error.message
+                }, null, 2));
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+        
+        // عرض النتائج
+        function showResult(text) {
+            resultDiv.textContent = text;
+            resultDiv.style.display = 'block';
+        }
+        
+        // بدء تحديث التوكن تلقائياً (كل 8 ساعات كما في البوت الأصلي)
+        async function startTokenUpdates() {
+            while (true) {
+                await getJwtToken();
+                // انتظار 8 ساعات (محاكاة)
+                await new Promise(resolve => setTimeout(resolve, 5000)); // 5 ثواني للتجربة
+            }
+        }
+        
+        // بدء تشغيل التطبيق
+        getJwtToken();
+        startTokenUpdates();
     </script>
 </body>
 </html>
