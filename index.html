@@ -1,396 +1,501 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JWT Token Generator - أداة جماعية</title>
+    <title>مولد توكنات JWT لـ Free Fire</title>
     <style>
+        :root {
+            --primary-color: #4a6baf;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --error-color: #e74c3c;
+        }
+        
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
         .container {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 500px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+            color: white;
             text-align: center;
+            padding: 25px 20px;
+            border-bottom: 5px solid var(--accent-color);
         }
         
         h1 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 24px;
-        }
-        
-        .logo {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        
-        .upload-area {
-            border: 3px dashed #667eea;
-            border-radius: 15px;
-            padding: 30px 15px;
-            margin: 20px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .upload-area:hover {
-            background: #f8f9ff;
-        }
-        
-        .upload-icon {
-            font-size: 40px;
-            color: #667eea;
+            font-size: 2.2rem;
             margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .main-content {
+            padding: 25px;
+        }
+        
+        .upload-section {
+            margin-bottom: 30px;
+            text-align: center;
         }
         
         .file-input {
             display: none;
         }
         
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .file-label {
+            display: block;
+            background: linear-gradient(to right, var(--primary-color), #3498db);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .file-name {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .json-example {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            text-align: left;
+            direction: ltr;
+        }
+        
+        .process-btn {
+            background: linear-gradient(to right, var(--success-color), #27ae60);
             color: white;
             border: none;
             padding: 15px 30px;
             border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 15px 0;
-            width: 100%;
+            font-size: 1.2rem;
             font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .btn:disabled {
-            background: #ccc;
+        .process-btn:disabled {
+            background: #95a5a6;
             cursor: not-allowed;
         }
         
-        .progress-container {
-            margin: 20px 0;
+        .process-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .results-section {
             display: none;
+            margin-top: 30px;
         }
         
         .progress-bar {
-            width: 100%;
-            height: 20px;
-            background: #f0f0f0;
-            border-radius: 10px;
+            height: 25px;
+            background-color: #eee;
+            border-radius: 50px;
+            margin: 20px 0;
             overflow: hidden;
-            margin: 10px 0;
         }
         
-        .progress-fill {
+        .progress {
             height: 100%;
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            border-radius: 10px;
-            transition: width 0.3s ease;
+            background: linear-gradient(to right, var(--primary-color), #3498db);
+            border-radius: 50px;
             width: 0%;
+            transition: width 0.5s ease;
         }
         
         .stats {
             display: flex;
             justify-content: space-around;
-            margin: 15px 0;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
         
         .stat-box {
-            background: #f8f9ff;
-            padding: 10px;
+            background-color: #f8f9fa;
+            padding: 15px;
             border-radius: 10px;
-            min-width: 80px;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+            margin: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
         .stat-number {
-            font-size: 18px;
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #667eea;
+            margin-bottom: 5px;
         }
         
-        .result-area {
-            margin: 20px 0;
-            padding: 15px;
-            background: #f8f9ff;
-            border-radius: 15px;
-            display: none;
-        }
-        
-        .download-btn {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin: 10px 0;
+        .success {
+            color: var(--success-color);
         }
         
         .error {
-            color: #ff4444;
-            margin: 10px 0;
-            padding: 10px;
-            background: #fff0f0;
-            border-radius: 5px;
-            display: none;
+            color: var(--error-color);
         }
         
-        .instructions {
-            background: #f8f9ff;
+        .download-btns {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .download-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .download-tokens {
+            background: linear-gradient(to right, var(--success-color), #27ae60);
+        }
+        
+        .download-errors {
+            background: linear-gradient(to right, var(--error-color), #c0392b);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .error-log {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--error-color);
             padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            text-align: right;
-            font-size: 14px;
+            margin-top: 20px;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            direction: ltr;
         }
         
-        .instructions h3 {
-            color: #333;
+        .error-item {
             margin-bottom: 10px;
-            font-size: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
         }
         
-        .instructions ol {
-            text-align: right;
-            padding-right: 20px;
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            margin-top: 30px;
         }
         
-        .instructions li {
-            margin-bottom: 8px;
-            color: #555;
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .file-label, .process-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+            }
+            
+            .download-btns {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">JWT</div>
-        <h1>🚀 JWT Token Generator</h1>
-        <p>أداة جماعية لاستخراج التوكنات</p>
+        <header>
+            <h1>مولد توكنات JWT لـ Free Fire</h1>
+            <p class="description">قم بتحميل ملف JSON يحتوي على بيانات الحسابات لاستخراج توكنات JWT</p>
+        </header>
         
-        <div class="instructions">
-            <h3>📋 كيفية الاستخدام:</h3>
-            <ol>
-                <li>انقر لاختيار ملف JSON</li>
-                <li>يجب أن يحتوي على [{"uid": "123", "password": "abc"}]</li>
-                <li>انقر على "بدء المعالجة"</li>
-                <li>انتظر ثم حمل النتائج</li>
-            </ol>
-        </div>
-        
-        <div class="upload-area" id="uploadArea">
-            <div class="upload-icon">📁</div>
-            <h3>انقر لاختيار ملف JSON</h3>
-            <p>يدعم ملفات JSON فقط</p>
-            <input type="file" id="fileInput" class="file-input" accept=".json">
-        </div>
-        
-        <div class="error" id="errorMessage"></div>
-        
-        <button class="btn" id="processBtn" disabled>⏳ انتظر تحميل الملف</button>
-        
-        <div class="progress-container" id="progressContainer">
-            <h3>جاري المعالجة...</h3>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+        <div class="main-content">
+            <div class="upload-section">
+                <label for="jsonFile" class="file-label">
+                    <i class="fas fa-upload"></i> اختر ملف JSON
+                </label>
+                <input type="file" id="jsonFile" accept=".json" class="file-input">
+                <div class="file-name">لم يتم اختيار ملف</div>
+                
+                <div class="json-example">
+// مثال على تنسيق الملف:
+[
+  {"uid": "12345", "password": "hashed_password1"},
+  {"uid": "67890", "password": "hashed_password2"}
+]
+
+// أو التنسيق البديل:
+[
+  {"4016272811": "hashed_password1"},
+  {"3686947614": "hashed_password2"}
+]
+
+// أو التنسيق الثالث:
+{
+  "4016272811": "hashed_password1",
+  "3686947614": "hashed_password2"
+}
+                </div>
+                
+                <button id="processBtn" class="process-btn" disabled>معالجة الملف</button>
             </div>
-            <div class="stats">
-                <div class="stat-box">
-                    <div class="stat-number" id="processed">0</div>
-                    <div>المعالجة</div>
+            
+            <div class="results-section" id="resultsSection">
+                <h2>نتائج المعالجة</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="successful">0</div>
-                    <div>الناجحة</div>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalAccounts">0</div>
+                        <div>إجمالي الحسابات</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number success" id="successCount">0</div>
+                        <div>ناجحة</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number error" id="errorCount">0</div>
+                        <div>فاشلة</div>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="failed">0</div>
-                    <div>الفاشلة</div>
+                
+                <div class="download-btns">
+                    <a href="#" class="download-btn download-tokens" id="downloadTokens">تحميل التوكنات الناجحة</a>
+                    <a href="#" class="download-btn download-errors" id="downloadErrors">تحميل الحسابات الفاشلة</a>
                 </div>
+                
+                <div class="error-log" id="errorLog"></div>
             </div>
         </div>
         
-        <div class="result-area" id="resultArea">
-            <h3>✅ اكتملت المعالجة!</h3>
-            <p>تم استخراج <span id="totalTokens">0</span> توكن بنجاح</p>
-            <a href="#" class="download-btn" id="downloadBtn">📥 تحميل النتائج</a>
-        </div>
+        <footer>
+            <p>تم التطوير باستخدام Free Fire JWT API</p>
+        </footer>
     </div>
 
     <script>
-        // عناصر DOM
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const processBtn = document.getElementById('processBtn');
-        const errorMessage = document.getElementById('errorMessage');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressFill = document.getElementById('progressFill');
-        const processedElement = document.getElementById('processed');
-        const successfulElement = document.getElementById('successful');
-        const failedElement = document.getElementById('failed');
-        const resultArea = document.getElementById('resultArea');
-        const totalTokensElement = document.getElementById('totalTokens');
-        const downloadBtn = document.getElementById('downloadBtn');
-        
-        let accountsData = [];
-        let results = [];
-        
-        // أحداث الرفع
-        uploadArea.addEventListener('click', () => fileInput.click());
-        
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('jsonFile');
+            const fileName = document.querySelector('.file-name');
+            const processBtn = document.getElementById('processBtn');
+            const resultsSection = document.getElementById('resultsSection');
+            const progressBar = document.getElementById('progressBar');
+            const totalAccounts = document.getElementById('totalAccounts');
+            const successCount = document.getElementById('successCount');
+            const errorCount = document.getElementById('errorCount');
+            const downloadTokens = document.getElementById('downloadTokens');
+            const downloadErrors = document.getElementById('downloadErrors');
+            const errorLog = document.getElementById('errorLog');
+            
+            let accountsData = [];
+            let tokens = [];
+            let failedAccounts = [];
+            
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    fileName.textContent = file.name;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const jsonData = JSON.parse(e.target.result);
+                            accountsData = parseJsonData(jsonData);
+                            processBtn.disabled = accountsData.length === 0;
+                            
+                            if (accountsData.length === 0) {
+                                alert('لم يتم العثور على حسابات صالحة في الملف. يرجى التحقق من التنسيق.');
+                            }
+                        } catch (error) {
+                            alert('خطأ في تحليل ملف JSON: ' + error.message);
+                            processBtn.disabled = true;
+                        }
+                    };
+                    reader.readAsText(file);
+                } else {
+                    fileName.textContent = 'لم يتم اختيار ملف';
+                    processBtn.disabled = true;
+                }
+            });
+            
+            processBtn.addEventListener('click', async function() {
+                if (accountsData.length === 0) return;
+                
+                // إعادة تعيين النتائج
+                tokens = [];
+                failedAccounts = [];
+                errorLog.innerHTML = '';
+                totalAccounts.textContent = accountsData.length;
+                successCount.textContent = '0';
+                errorCount.textContent = '0';
+                progressBar.style.width = '0%';
+                resultsSection.style.display = 'block';
+                
+                // التمرير إلى القسم النتائج
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+                
+                let processed = 0;
+                const total = accountsData.length;
+                
+                for (const account of accountsData) {
+                    try {
+                        const response = await fetch(`https://gelmi-ff-jwt-token.vercel.app/api/get_jwt?key=7days&guest_uid=${account.uid}&guest_password=${account.password}`);
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            
+                            if (data.token) {
+                                tokens.push({ token: data.token });
+                            } else {
+                                throw new Error('لا يوجد token في الاستجابة');
+                            }
+                        } else {
+                            throw new Error(`خطأ في API: ${response.status}`);
+                        }
+                    } catch (error) {
+                        failedAccounts.push({
+                            uid: account.uid,
+                            password: account.password,
+                            error: error.message
+                        });
+                        
+                        // إضافة الخطأ إلى السجل
+                        const errorItem = document.createElement('div');
+                        errorItem.className = 'error-item';
+                        errorItem.textContent = `الحساب ${account.uid}: ${error.message}`;
+                        errorLog.appendChild(errorItem);
+                    }
+                    
+                    processed++;
+                    const progress = (processed / total) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    successCount.textContent = tokens.length;
+                    errorCount.textContent = failedAccounts.length;
+                    
+                    // تحديث العرض كل 10 حسابات أو عند الانتهاء
+                    if (processed % 10 === 0 || processed === total) {
+                        // إجبار المتصفح على التحديث
+                        await new Promise(resolve => setTimeout(resolve, 0));
+                    }
+                }
+                
+                // إنشاء روابط التحميل
+                const tokensBlob = new Blob([JSON.stringify(tokens, null, 2)], { type: 'application/json' });
+                const errorsBlob = new Blob([JSON.stringify(failedAccounts, null, 2)], { type: 'application/json' });
+                
+                downloadTokens.href = URL.createObjectURL(tokensBlob);
+                downloadTokens.download = 'gelmi_tokens.json';
+                
+                downloadErrors.href = URL.createObjectURL(errorsBlob);
+                downloadErrors.download = 'gelmi_errors.json';
+            });
+            
+            function parseJsonData(jsonData) {
+                const accounts = [];
+                
+                if (Array.isArray(jsonData)) {
+                    for (const item of jsonData) {
+                        if (typeof item === 'object' && item !== null) {
+                            // التنسيق الأول: { "uid": "123", "password": "pass" }
+                            if ('uid' in item && 'password' in item) {
+                                accounts.push({ uid: item.uid, password: item.password });
+                            } 
+                            // التنسيق الثاني: { "4016272811": "password" }
+                            else {
+                                for (const [uid, password] of Object.entries(item)) {
+                                    if (typeof password === 'string') {
+                                        accounts.push({ uid, password });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } 
+                // التنسيق الثالث: { "4016272811": "password", "3686947614": "password" }
+                else if (typeof jsonData === 'object' && jsonData !== null) {
+                    for (const [uid, password] of Object.entries(jsonData)) {
+                        if (typeof password === 'string') {
+                            accounts.push({ uid, password });
+                        }
+                    }
+                }
+                
+                return accounts;
             }
         });
-        
-        processBtn.addEventListener('click', startProcessing);
-        
-        function handleFile(file) {
-            if (file.type !== 'application/json') {
-                showError('❌ يرجى اختيار ملف JSON فقط');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    accountsData = JSON.parse(e.target.result);
-                    if (!Array.isArray(accountsData)) {
-                        throw new Error('يجب أن يكون الملف مصفوفة');
-                    }
-                    
-                    processBtn.disabled = false;
-                    processBtn.textContent = '🚀 بدء المعالجة';
-                    errorMessage.style.display = 'none';
-                    
-                } catch (error) {
-                    showError('❌ خطأ في JSON: ' + error.message);
-                }
-            };
-            reader.readAsText(file);
-        }
-        
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-            processBtn.disabled = true;
-        }
-        
-        async function startProcessing() {
-            if (accountsData.length === 0) {
-                showError('❌ لا توجد بيانات للمعالجة');
-                return;
-            }
-            
-            processBtn.disabled = true;
-            progressContainer.style.display = 'block';
-            resultArea.style.display = 'none';
-            errorMessage.style.display = 'none';
-            
-            results = [];
-            let successful = 0;
-            let failed = 0;
-            
-            for (let i = 0; i < accountsData.length; i++) {
-                const account = accountsData[i];
-                const progress = ((i + 1) / accountsData.length) * 100;
-                
-                progressFill.style.width = progress + '%';
-                processedElement.textContent = i + 1;
-                
-                try {
-                    const token = await getJWTToken(account.uid, account.password);
-                    if (token) {
-                        results.push(token);
-                        successful++;
-                    } else {
-                        failed++;
-                    }
-                } catch (error) {
-                    failed++;
-                }
-                
-                successfulElement.textContent = successful;
-                failedElement.textContent = failed;
-                
-                // تأخير بسيط بين الطلبات
-                await new Promise(resolve => setTimeout(resolve, 100));
-            }
-            
-            // عرض النتائج
-            totalTokensElement.textContent = results.length;
-            resultArea.style.display = 'block';
-            
-            // إنشاء رابط التحميل
-            const blob = new Blob([JSON.stringify(results, null, 2)], { 
-                type: 'application/json' 
-            });
-            const url = URL.createObjectURL(blob);
-            downloadBtn.href = url;
-            downloadBtn.download = 'jwt_tokens.json';
-            
-            processBtn.disabled = false;
-            processBtn.textContent = '🔄 معالجة مرة أخرى';
-        }
-        
-        async function getJWTToken(uid, password) {
-            try {
-                const apiUrl = `https://gelmi-ff-jwt-token.vercel.app/api/get_jwt?key=7days&guest_uid=${uid}&guest_password=${password}`;
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) {
-                    throw new Error(`خطأ: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                // دعم جميع أشكال الاستجابة
-                if (data && data.token) {
-                    return data.token;
-                } else if (data && data.jwt) {
-                    return data.jwt;
-                } else if (typeof data === 'string' && data.startsWith('eyJ')) {
-                    return data;
-                } else if (data && data.status === 'success' && data.token) {
-                    return data.token;
-                } else {
-                    console.log('استجابة غير متوقعة:', data);
-                    return null;
-                }
-                
-            } catch (error) {
-                console.error('خطأ في استخراج التوكن:', error);
-                return null;
-            }
-        }
     </script>
 </body>
 </html>
